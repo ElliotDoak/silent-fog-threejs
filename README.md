@@ -1,1 +1,1 @@
-An intro to the worl dof Three.js!
+An intro to the world of Three.js!
