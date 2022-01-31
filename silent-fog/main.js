@@ -26,7 +26,7 @@ renderer.render(scene, camera);
 
 const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
 const material = new THREE.MeshStandardMaterial({
-  color: 0xff6347,
+  color: 0x552586,
 });
 const torus = new THREE.Mesh(geometry, material);
 
@@ -42,15 +42,15 @@ scene.add(ambientLight);
 // const lightHelper = new THREE.AmbientLight(0xffffff);
 // scene.add(lightHelper);
 
-const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(gridHelper);
+// const gridHelper = new THREE.GridHelper(200, 50);
+// scene.add(gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
 function addStar() {
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
   const material = new THREE.MeshStandardMaterial({
-    color: 0xff6347,
+    color: 0xffffff,
   });
   const star = new THREE.Mesh(geometry, material);
   const [x, y, z] = Array(3)
@@ -67,7 +67,7 @@ const spaceTexture = new THREE.TextureLoader().load("space.jpeg");
 scene.background = spaceTexture;
 
 // avatar
-const jeffTexture = new THREE.TextureLoader().load("jeff.png");
+const jeffTexture = new THREE.TextureLoader().load("elliot.jpeg");
 
 const jeff = new THREE.Mesh(
   new THREE.BoxGeometry(3, 3, 3),
@@ -89,6 +89,41 @@ const moon = new THREE.Mesh(
 );
 
 scene.add(moon);
+
+moon.position.z = 30;
+moon.position.x = -10;
+
+// 2nd object
+const earthTexture = new THREE.TextureLoader().load("moon.jpeg");
+
+const earth = new THREE.Mesh(
+  new THREE.SphereGeometry(3, 32, 32),
+  new THREE.MeshStandardMaterial({
+    map: earthTexture,
+    normalMap: normalTexture,
+  })
+);
+
+scene.add(earth);
+
+earth.position.z = 70;
+earth.position.x = 10;
+
+function moveCamera() {
+  const t = document.body.getBoundingClientRect().top;
+  moon.rotation.x += 0.007;
+  moon.rotation.y += 0.007;
+  moon.rotation.z += 0.006;
+
+  jeff.rotation.y += 0.007;
+  jeff.rotation.z += 0.007;
+
+  camera.position.z = t * -0.01;
+  camera.position.x = t * -0.0002;
+  camera.rotation.y = t * -0.0002;
+}
+document.body.onscroll = moveCamera;
+moveCamera();
 
 function animate() {
   requestAnimationFrame(animate);
